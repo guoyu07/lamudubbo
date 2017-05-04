@@ -1,0 +1,68 @@
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <classPathEntry
+            location="/Users/songliang/Documents/repository/mysql/mysql-connector-java/5.1.30/mysql-connector-java-5.1.30.jar"/>
+    <context id="abc" targetRuntime="mybatis3">
+        <commentGenerator>
+            <property name="suppressAllComments" value="false"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+        <!--如果链接多个数据库怎么办-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/lamu?
+        characterEncoding=utf8">
+            <property name="user" value="root"></property>
+            <property name="password" value="1234"></property>
+
+        </jdbcConnection>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+
+        <javaModelGenerator targetPackage="com.lamu.entity" targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+            <property name="enableSubPackages" value="false"/>
+
+
+        </javaModelGenerator>
+        <!--生成映射文件-->
+        <sqlMapGenerator targetPackage="com.lamu.mapper" targetProject="src/main/resources"></sqlMapGenerator>
+        <!--生成接口-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.lamu.dao" targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+
+        </javaClientGenerator>
+
+        <!-- <table tableName="admin"></table>
+
+         <table tableName="advertisement"></table>
+         <table tableName="book"></table>
+         <table tableName="bookvegetable"></table>
+         <table tableName="cart"></table>
+         <table tableName="comment"></table>
+         <table tableName="gallerypic"></table>
+         <table tableName="message"></table>
+         <table tableName="usermessage"></table>
+         <table tableName="user"></table>
+         <table tableName="vegetable_pic"></table>
+         <table tableName="vegetable"></table>
+         <table tableName="vegetable_info_pic"></table>
+ -->
+        <!-- <table tableName="admin"></table>
+         <table tableName="announcement"></table>
+         <table tableName="book"></table>
+         <table tableName="comment"></table>-->
+        <!--   <table tableName="gallery"></table>-->
+        <!--<table tableName="production"></table>
+
+        <table tableName="production_saled"></table>
+        <table tableName="production_stock"></table>
+        <table tableName="system"></table>
+        <table tableName="user"></table>
+        <table tableName="user_message"></table>
+-->
+        <table tableName="production_kinds"></table>
+    </context>
+</generatorConfiguration>

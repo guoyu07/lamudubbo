@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="${mysql.driver}"/>
+        <property name="url" value="${mysql.url}"/>
+        <property name="username" value="${mysql.user}"/>
+        <property name="password" value="${mysql.password}"/>
+    </bean>
+    <bean id="transaction" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="300"></property>
+        <property name="testOnBorrow" value="true"></property>
+        <property name="testOnReturn" value="true"></property>
+    </bean>
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg index="0" ref="jedisPoolConfig"></constructor-arg>
+        <constructor-arg index="1" value="${redis.host}"></constructor-arg>
+        <constructor-arg index="2" value="${redis.port}"></constructor-arg>
+        <constructor-arg index="3" value="${redis.timeout}"></constructor-arg>
+    </bean>
+    <bean id="sharedJedisPool" class="redis.clients.jedis.ShardedJedisPool">
+        <constructor-arg index="0" ref="jedisPoolConfig"></constructor-arg>
+        <constructor-arg index="1">
+            <list>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg name="host" value="${redis.host}"></constructor-arg>
+                    <constructor-arg name="port" value="${redis.port}"></constructor-arg>
+                    <constructor-arg name="timeout" value="${redis.timeout}"></constructor-arg>
+                </bean>
+
+            </list>
+        </constructor-arg>
+
+    </bean>
+</beans>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/lamuapi/lamuapi.iml" filepath="$PROJECT_DIR$/lamuapi/lamuapi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lamudao/lamudao.iml" filepath="$PROJECT_DIR$/lamudao/lamudao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lamudubbo.iml" filepath="$PROJECT_DIR$/lamudubbo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lamusoa/lamusoa.iml" filepath="$PROJECT_DIR$/lamusoa/lamusoa.iml" />
+    </modules>
+  </component>
+</project>
