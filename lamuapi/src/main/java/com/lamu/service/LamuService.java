@@ -5,6 +5,7 @@ import com.lamu.model.ProductionKindsModel;
 import com.lamu.model.ProductionModel;
 import com.lamu.model.ProductionPicModel;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,21 +16,21 @@ import java.util.Map;
  * @date: 16/6/9
  */
 public interface LamuService {
-   /* *//**
-     * @param request
-     * @param production
-     * @param files
-     * @param types
-     * @return
-     *//*
-    public Integer insertProduction(MultipartHttpServletRequest request, Production production, List<MultipartFile> files, List<Integer> types);
-*/
+    /*
+    * @param request
+    * @param production
+    * @param files
+    * @param types
+    * @return
+    */
+    public void insertProduction(ProductionModel production, ProductionPicModel productionPicModel);
+
 
     /**
-     * @param clone
+
      * @return
      */
-    public PageInfo<ProductionModel> getAllLamusByCondition(Map clone);
+    public PageInfo<ProductionModel> getAllLamusByCondition(String name, Date date, Integer curPage, Integer pageSize);
 
     /**
      * @param clone
@@ -47,16 +48,10 @@ public interface LamuService {
      */
     public List<ProductionPicModel> selectPic(String id);
 
-   /* *//**
-     * @param request
-     * @param uuid
-     * @param sort
-     * @param file
-     * @return
-     *//*
-    public Integer updatePic(HttpServletRequest request, String uuid, String sort, MultipartFile file);
 
-  */
+    public void updatePic(ProductionPicModel model);
+
+
 
     /**
      * @param lamu

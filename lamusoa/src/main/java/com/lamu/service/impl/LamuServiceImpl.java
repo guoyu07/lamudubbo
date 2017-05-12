@@ -7,7 +7,6 @@ import com.lamu.dao.ProductionMapper;
 import com.lamu.dao.ProductionMapperExt;
 import com.lamu.dao.ProductionPicMapper;
 import com.lamu.entity.*;
-import com.lamu.exception.LamuException;
 import com.lamu.model.ProductionKindsModel;
 import com.lamu.model.ProductionModel;
 import com.lamu.model.ProductionPicModel;
@@ -18,15 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by songliang on 2016/1/12.
@@ -45,47 +37,24 @@ public class LamuServiceImpl implements LamuService {
     @Autowired
     private ProductionKindsMapper productionKindsMapper;
 
-    /*@Transactional(propagation = Propagation.REQUIRES_NEW)
-    public Integer insertProduction(MultipartHttpServletRequest request, ProductionModel production, List<MultipartFile> files, List<Integer> types) {
-        String root = request.getServletContext().getRealPath("/");
-        String parentDir = root + "/upload/lamu/" + production.getUuid() + "/";
-        for (int i = 0; i < files.size(); i++) {
-            MultipartFile file = files.get(i);
-            File uploadDir = new File(parentDir, file.getOriginalFilename());
-            if (!uploadDir.exists()) {
-                uploadDir.mkdirs();
-            }
-            try {
-                file.transferTo(uploadDir);
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void insertProduction(ProductionModel production, ProductionPicModel productionPicModel) {
+        ProductionPic productionPic = new ProductionPic();
+        BeanUtils.copyProperties(productionPicModel, productionPic);
+        productionPicMapper.insertSelective(productionPic);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-                LOGGER.info("辣木图片写入失败!" + e.getCause());
-                throw new LamuException("辣木图片写入失败!", e);
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
-                LOGGER.info("辣木图片写入失败！" + e.getCause());
-                throw new LamuException("辣木图片写入失败!", e);
-            }
-            ProductionPicModel productionPic = new ProductionPicModel();
-            productionPic.setUuid(UUID.randomUUID().toString());
-            productionPic.setProductionId(production.getUuid());
-            productionPic.setPicAddr("/upload/lamu/" + production.getUuid() + "/" + file.getOriginalFilename());
-            productionPic.setPicType(types.get(i));
-            productionPic.setSort(i);
-            productionPicMapper.insertSelective(productionPic);
-        }
-        return productionMapper.insertSelective(production);
+        Production production1 = new Production();
+        BeanUtils.copyProperties(production, production1);
+        productionMapper.insertSelective(production1);
     }
-*/
-    public PageInfo<ProductionModel> getAllLamusByCondition(Map clone) {
 
-        Integer curPage = (Integer) clone.get("curPage");
-        Integer pageSize = (Integer) clone.get("pageSize");
+    public PageInfo<ProductionModel> getAllLamusByCondition(String name, Date date, Integer curPage, Integer pageSize) {
         PageHelper.startPage(curPage, pageSize);
-        List<Production> withoutLimit = getAllLamuByConditionWithoutLimit(clone);
+        ProductionExample example = new ProductionExample();
+        example.or().andNameLike(name);
+        List<Production> productions = productionMapper.selectByExample(example);
         ArrayList<ProductionModel> models = new ArrayList<>();
-        for (Production production : withoutLimit) {
+        for (Production production : productions) {
             ProductionModel model = new ProductionModel();
             BeanUtils.copyProperties(production, model);
             models.add(model);
@@ -93,13 +62,6 @@ public class LamuServiceImpl implements LamuService {
         PageInfo<ProductionModel> page = new PageInfo<>(models);
         return page;
     }
-
-    public List<Production> getAllLamuByConditionWithoutLimit(Map clone) {
-        List<Production> withoutLimit = productionMapperExt.getAllLamusByConditionWithoutLimit(clone);
-
-        return withoutLimit;
-    }
-
     public ProductionModel select(String id) {
         Production production = productionMapper.selectByPrimaryKey(id);
         ProductionModel model = new ProductionModel();
@@ -122,42 +84,11 @@ public class LamuServiceImpl implements LamuService {
         return models;
     }
 
-    public Integer updatePic(HttpServletRequest request, String uuid, String sort, MultipartFile file) {
-        String root = request.getServletContext().getRealPath("/");
-        String parentDir = root + "/upload/lamu/" + uuid + "/";
-        File uploadDir = new File(parentDir, file.getOriginalFilename());
-        //获取原来的图片并删除
-        ProductionPicExample example = new ProductionPicExample();
-        example.createCriteria().andProductionIdEqualTo(uuid).andSortEqualTo(Integer.valueOf(sort));
-        List<ProductionPic> pics = productionPicMapper.selectByExample(example);
-        String picAddr = pics.get(0).getPicAddr();
-        String oldAddr = parentDir + picAddr;
-        File oldFile = new File(oldAddr);
-        try {
-            oldFile.delete();
-        } catch (Exception e) {
-            throw new LamuException("原始文件删除失败", e);
-        }
-        try {
-
-            file.transferTo(uploadDir);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            LOGGER.info("辣木图片写入失败!" + e.getCause());
-            throw new LamuException("辣木图片写入失败!", e);
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-            LOGGER.info("辣木图片写入失败！" + e.getCause());
-            throw new LamuException("辣木图片写入失败!", e);
-        }
+    public void updatePic(ProductionPicModel model) {
         ProductionPic productionPic = new ProductionPic();
-        productionPic.setProductionId(uuid);
-        productionPic.setPicAddr("/upload/lamu/" + uuid + "/" + file.getOriginalFilename());
-        ProductionPicExample picExample = new ProductionPicExample();
-        picExample.createCriteria().andProductionIdEqualTo(uuid).andSortEqualTo(Integer.valueOf(sort));
-        int update = productionPicMapper.updateByExampleSelective(productionPic, picExample);
-        return update;
+        BeanUtils.copyProperties(model, productionPic);
+
+        productionPicMapper.updateByPrimaryKeySelective(productionPic);
     }
 
     public Integer update(ProductionModel lamu) {
