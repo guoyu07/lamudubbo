@@ -4,10 +4,10 @@ import com.github.pagehelper.PageInfo;
 import com.lamu.model.ProductionKindsModel;
 import com.lamu.model.ProductionModel;
 import com.lamu.model.ProductionPicModel;
+import com.lamu.model.ProductionWithPicModel;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author: songliang
@@ -23,8 +23,9 @@ public interface LamuService {
     * @param types
     * @return
     */
-    public void insertProduction(ProductionModel production, ProductionPicModel productionPicModel);
+    public void insertProduction(ProductionModel production);
 
+    public void insertProductionPic(ProductionPicModel productionPicModel);
 
     /**
 
@@ -32,6 +33,7 @@ public interface LamuService {
      */
     public PageInfo<ProductionModel> getAllLamusByCondition(String name, Date date, Integer curPage, Integer pageSize);
 
+    PageInfo<ProductionWithPicModel> condition(Integer category, String unit, String orderBy, Integer curPage, Integer pageSize);
     /**
      * @param clone
      * @return
@@ -85,7 +87,7 @@ public interface LamuService {
     /**
      * @return
      */
-    public Map<ProductionModel, ProductionPicModel> getFrontLamuEight();
+    public PageInfo<ProductionWithPicModel> getFrontLamuEight();
 
     /**
      * @return

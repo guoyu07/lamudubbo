@@ -3,17 +3,17 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
     <classPathEntry
-            location="/Users/songliang/Documents/repository/mysql/mysql-connector-java/5.1.30/mysql-connector-java-5.1.30.jar"/>
+            location="/Users/songliangliang/Documents/develop/repository/mysql/mysql-connector-java/5.1.30/mysql-connector-java-5.1.30.jar"/>
     <context id="abc" targetRuntime="mybatis3">
         <commentGenerator>
             <property name="suppressAllComments" value="false"/>
             <property name="suppressDate" value="true"/>
         </commentGenerator>
         <!--如果链接多个数据库怎么办-->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/lamu?
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://5909a99f5452e.gz.cdb.myqcloud.com:15510/lamu?
         characterEncoding=utf8">
-            <property name="user" value="root"></property>
-            <property name="password" value="1234"></property>
+            <property name="user" value="cdb_outerroot"></property>
+            <property name="password" value="sl123456"></property>
 
         </jdbcConnection>
         <javaTypeResolver>
@@ -63,6 +63,6 @@
         <table tableName="user"></table>
         <table tableName="user_message"></table>
 -->
-        <table tableName="production_kinds"></table>
+        <table tableName="production"></table>
     </context>
 </generatorConfiguration>

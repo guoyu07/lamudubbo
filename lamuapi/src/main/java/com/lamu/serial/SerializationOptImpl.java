@@ -18,7 +18,6 @@ public class SerializationOptImpl implements SerializationOptimizer {
     public Collection<Class> getSerializableClasses() {
         List<Class> list = new LinkedList<Class>();
         list.add(Void.class);
-        list.add(PageInfo.class);
         list.add(Double.class);
         list.add(Page.class);
         list.add(PageInfo.class);
@@ -38,6 +37,8 @@ public class SerializationOptImpl implements SerializationOptimizer {
         list.add(UserModel.class);
         list.add(LamuException.class);
         list.add(UserNotFoundException.class);
+        list.add(ProductionWithPicModel.class);
+        list.add(List.class);
         return list;
     }
 }

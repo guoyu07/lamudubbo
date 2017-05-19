@@ -6,9 +6,12 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://code.alibabatech.com/schema/dubbo
        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
-    <dubbo:reference interface="com.lamu.service.AdminService" id="adminService" validation="true"></dubbo:reference>
+    <dubbo:reference interface="com.lamu.service.AdminService" id="adminService" validation="true"
+                     timeout="5000"></dubbo:reference>
     <dubbo:reference interface="com.lamu.service.GalleryService" id="galleryService"
                      validation="true"></dubbo:reference>
-    <dubbo:reference interface="com.lamu.service.LamuService" id="lamuService" validation="true"></dubbo:reference>
-    <dubbo:reference interface="com.lamu.service.OrderService" id="orderService" validation="true"></dubbo:reference>
+    <dubbo:reference interface="com.lamu.service.LamuService" id="lamuService" validation="true"
+                     timeout="5000"></dubbo:reference>
+    <dubbo:reference interface="com.lamu.service.OrderService" id="orderService" validation="true"
+                     timeout="5000"></dubbo:reference>
 </beans>

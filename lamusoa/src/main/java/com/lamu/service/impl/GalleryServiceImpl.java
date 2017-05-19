@@ -28,7 +28,9 @@ public class GalleryServiceImpl implements GalleryService {
     private GalleryMapperExt galleryMapperExt;
 
     public List<GalleryModel> getAllGalleryPics() {
-        List<Gallery> gallerypics = galleryMapper.selectByExample(null);
+        GalleryExample example = new GalleryExample();
+        example.setOrderByClause("date desc");
+        List<Gallery> gallerypics = galleryMapper.selectByExample(example);
         List<GalleryModel> models = new ArrayList<>();
         for (Gallery gallery : gallerypics) {
             GalleryModel galleryModel = new GalleryModel();
@@ -46,7 +48,7 @@ public class GalleryServiceImpl implements GalleryService {
     }
 
     public PageInfo<GalleryModel> getGallerysByPage(Integer currentPage) {
-        PageHelper.startPage(1, 8);
+        PageHelper.startPage(1, 4);
         List<GalleryModel> allGalleryPics = getAllGalleryPics();
         PageInfo<GalleryModel> pageInfo = new PageInfo<>();
         pageInfo.setList(allGalleryPics);

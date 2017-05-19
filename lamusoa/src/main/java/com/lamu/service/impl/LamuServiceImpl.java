@@ -10,6 +10,7 @@ import com.lamu.entity.*;
 import com.lamu.model.ProductionKindsModel;
 import com.lamu.model.ProductionModel;
 import com.lamu.model.ProductionPicModel;
+import com.lamu.model.ProductionWithPicModel;
 import com.lamu.service.LamuService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
@@ -18,7 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by songliang on 2016/1/12.
@@ -38,16 +41,18 @@ public class LamuServiceImpl implements LamuService {
     private ProductionKindsMapper productionKindsMapper;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void insertProduction(ProductionModel production, ProductionPicModel productionPicModel) {
-        ProductionPic productionPic = new ProductionPic();
-        BeanUtils.copyProperties(productionPicModel, productionPic);
-        productionPicMapper.insertSelective(productionPic);
-
+    public void insertProduction(ProductionModel production) {
         Production production1 = new Production();
         BeanUtils.copyProperties(production, production1);
         productionMapper.insertSelective(production1);
     }
 
+    @Transactional
+    public void insertProductionPic(ProductionPicModel productionPicModel) {
+        ProductionPic productionPic = new ProductionPic();
+        BeanUtils.copyProperties(productionPicModel, productionPic);
+        productionPicMapper.insertSelective(productionPic);
+    }
     public PageInfo<ProductionModel> getAllLamusByCondition(String name, Date date, Integer curPage, Integer pageSize) {
         PageHelper.startPage(curPage, pageSize);
         ProductionExample example = new ProductionExample();
@@ -62,6 +67,41 @@ public class LamuServiceImpl implements LamuService {
         PageInfo<ProductionModel> page = new PageInfo<>(models);
         return page;
     }
+
+    @Override
+    public PageInfo<ProductionWithPicModel> condition(Integer category, String unit, String orderBy, Integer curPage, Integer pageSize) {
+        List<ProductionWithPicModel> models = new ArrayList<>();
+        PageHelper.startPage(curPage, pageSize);
+        ProductionExample example = new ProductionExample();
+        example.setOrderByClause(orderBy);
+        ProductionExample.Criteria criteria = example.or();
+        if (category != null) {
+            criteria.andCategoryEqualTo(category);
+        }
+        if (unit != null) {
+            criteria.andUnitEqualTo(unit);
+        }
+        List<Production> productions = productionMapper.selectByExample(example);
+        for (Production production : productions) {
+            ProductionModel productionModel = new ProductionModel();
+            BeanUtils.copyProperties(production, production);
+            ProductionPicExample picExample = new ProductionPicExample();
+            picExample.createCriteria().andProductionIdEqualTo(production.getUuid()).andPicTypeEqualTo(1);
+            List<ProductionPic> productionPics = productionPicMapper.selectByExample(picExample);
+            List<ProductionPicModel> pics = new ArrayList<>();
+            for (ProductionPic productionPic : productionPics) {
+                ProductionPicModel productionPicModel = new ProductionPicModel();
+                BeanUtils.copyProperties(productionPic, productionPicModel);
+                pics.add(productionPicModel);
+            }
+            ProductionWithPicModel withPicModel = new ProductionWithPicModel();
+            withPicModel.setPicModelList(pics);
+            withPicModel.setModel(productionModel);
+            models.add(withPicModel);
+        }
+        return new PageInfo<ProductionWithPicModel>(models);
+    }
+
     public ProductionModel select(String id) {
         Production production = productionMapper.selectByPrimaryKey(id);
         ProductionModel model = new ProductionModel();
@@ -143,22 +183,32 @@ public class LamuServiceImpl implements LamuService {
 
     }
 
-    public Map<ProductionModel, ProductionPicModel> getFrontLamuEight() {
-        Map<ProductionModel, ProductionPicModel> productionPicMap = new HashMap<ProductionModel, ProductionPicModel>();
-        ProductionExample example = new ProductionExample();
-        example.createCriteria().andRecommandEqualTo(1);
-        List<Production> productions = productionMapper.selectByExample(example);
+    public PageInfo<ProductionWithPicModel> getFrontLamuEight() {
+
+        PageHelper.startPage(1, 8);
+        List<Production> productions = productionMapper.selectByExample(null);
+        List<ProductionWithPicModel> withPicModels = new ArrayList<>();
         for (Production production : productions) {
             ProductionPicExample picExample = new ProductionPicExample();
-            picExample.createCriteria().andProductionIdEqualTo(production.getUuid()).andSortEqualTo(0);
+            picExample.or().andProductionIdEqualTo(production.getUuid());
+            picExample.setOrderByClause("create_time desc");
             List<ProductionPic> pics = productionPicMapper.selectByExample(picExample);
+            List<ProductionPicModel> picModels = new ArrayList<>();
+            for (ProductionPic pic : pics) {
+                ProductionPicModel picModel = new ProductionPicModel();
+                BeanUtils.copyProperties(pic, picModel);
+                picModels.add(picModel);
+            }
             ProductionModel productionModel = new ProductionModel();
             BeanUtils.copyProperties(production, productionModel);
-            ProductionPicModel productionPicModel = new ProductionPicModel();
-            BeanUtils.copyProperties(pics.get(0), productionPicModel);
-            productionPicMap.put(productionModel, productionPicModel);
+            ProductionWithPicModel withPicModel = new ProductionWithPicModel();
+            withPicModel.setModel(productionModel);
+            withPicModel.setPicModelList(picModels);
+            withPicModels.add(withPicModel);
+
         }
-        return productionPicMap;
+        PageInfo<ProductionWithPicModel> pageInfo = new PageInfo<>(withPicModels);
+        return pageInfo;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
