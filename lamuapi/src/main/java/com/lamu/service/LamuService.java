@@ -33,7 +33,7 @@ public interface LamuService {
      */
     public PageInfo<ProductionModel> getAllLamusByCondition(String name, Date date, Integer curPage, Integer pageSize);
 
-    PageInfo<ProductionWithPicModel> condition(Integer category, String unit, String orderBy, Integer curPage, Integer pageSize);
+    PageInfo<ProductionWithPicModel> condition(String category, String unit, String orderBy, Integer curPage, Integer pageSize);
     /**
      * @param clone
      * @return

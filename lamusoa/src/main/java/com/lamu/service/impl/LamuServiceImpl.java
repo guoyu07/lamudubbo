@@ -69,7 +69,7 @@ public class LamuServiceImpl implements LamuService {
     }
 
     @Override
-    public PageInfo<ProductionWithPicModel> condition(Integer category, String unit, String orderBy, Integer curPage, Integer pageSize) {
+    public PageInfo<ProductionWithPicModel> condition(String category, String unit, String orderBy, Integer curPage, Integer pageSize) {
         List<ProductionWithPicModel> models = new ArrayList<>();
         PageHelper.startPage(curPage, pageSize);
         ProductionExample example = new ProductionExample();
@@ -84,7 +84,7 @@ public class LamuServiceImpl implements LamuService {
         List<Production> productions = productionMapper.selectByExample(example);
         for (Production production : productions) {
             ProductionModel productionModel = new ProductionModel();
-            BeanUtils.copyProperties(production, production);
+            BeanUtils.copyProperties(production, productionModel);
             ProductionPicExample picExample = new ProductionPicExample();
             picExample.createCriteria().andProductionIdEqualTo(production.getUuid()).andPicTypeEqualTo(1);
             List<ProductionPic> productionPics = productionPicMapper.selectByExample(picExample);
@@ -190,7 +190,7 @@ public class LamuServiceImpl implements LamuService {
         List<ProductionWithPicModel> withPicModels = new ArrayList<>();
         for (Production production : productions) {
             ProductionPicExample picExample = new ProductionPicExample();
-            picExample.or().andProductionIdEqualTo(production.getUuid());
+            picExample.or().andProductionIdEqualTo(production.getUuid()).andPicTypeEqualTo(0);
             picExample.setOrderByClause("create_time desc");
             List<ProductionPic> pics = productionPicMapper.selectByExample(picExample);
             List<ProductionPicModel> picModels = new ArrayList<>();
