@@ -15,4 +15,5 @@
                    loadbalance="random"></dubbo:service>
     <dubbo:service interface="com.lamu.service.LamuService" ref="lamuService" loadbalance="random"></dubbo:service>
     <dubbo:service interface="com.lamu.service.OrderService" ref="orderService" loadbalance="random"></dubbo:service>
+    <dubbo:service interface="com.lamu.service.UserService" ref="userService" loadbalance="random"></dubbo:service>
 </beans>
