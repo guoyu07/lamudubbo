@@ -23,9 +23,9 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdminMapper adminMapper;
 
-    public List<AdminModel> adminLogin(String id, String passoword) {
+    public List<AdminModel> adminLogin(String username , String password) {
         AdminExample example = new AdminExample();
-        example.createCriteria().andIdEqualTo(id).andPasswordEqualTo(passoword);
+        example.createCriteria().andNameEqualTo(username).andPasswordEqualTo(password);
         List<Admin> admins = adminMapper.selectByExample(example);
         if (admins == null || admins.isEmpty()) {
             throw new UserNotFoundException("user not found !");

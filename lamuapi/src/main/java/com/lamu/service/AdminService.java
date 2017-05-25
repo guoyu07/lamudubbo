@@ -11,9 +11,9 @@ public interface AdminService {
     /**
      * 管理员登陆
      *
-     * @param id       管理员id
+     * @param username       管理员id
      * @param password 管理员密码
      * @return 管理员列表
      */
-    public List<AdminModel> adminLogin(String id, String password);
+    public List<AdminModel> adminLogin(String username, String password);
 }

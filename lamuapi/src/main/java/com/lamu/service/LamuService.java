@@ -23,7 +23,7 @@ public interface LamuService {
     * @param types
     * @return
     */
-    public void insertProduction(ProductionModel production);
+    public Integer insertProduction(ProductionModel production);
 
     public void insertProductionPic(ProductionPicModel productionPicModel);
 
@@ -33,7 +33,7 @@ public interface LamuService {
      */
     public PageInfo<ProductionModel> getAllLamusByCondition(String name, Date date, Integer curPage, Integer pageSize);
 
-    PageInfo<ProductionWithPicModel> condition(String category, String unit, String orderBy, Integer curPage, Integer pageSize);
+    PageInfo<ProductionWithPicModel> condition(Integer category, String unit, String orderBy, Integer curPage, Integer pageSize);
     /**
      * @param clone
      * @return
@@ -43,12 +43,12 @@ public interface LamuService {
      * @param id
      * @return
      */
-    public ProductionModel select(String id);
+    public ProductionModel select(Integer id);
 
     /**
      * @return
      */
-    public List<ProductionPicModel> selectPic(String id);
+    public List<ProductionPicModel> selectPic(Long id);
 
 
     public void updatePic(ProductionPicModel model);
@@ -70,19 +70,19 @@ public interface LamuService {
      * @param id
      * @return
      */
-    public Integer addRecommand(String id);
+    public Integer addRecommand(Integer id);
 
     /**
      * @param id
      * @return
      */
-    public Integer removeRecommand(String id);
+    public Integer removeRecommand(Integer id);
 
     /**
      * @param id
      * @return
      */
-    public Integer delete(String id);
+    public Integer delete(Integer id);
 
     /**
      * @return

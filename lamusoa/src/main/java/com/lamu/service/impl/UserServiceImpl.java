@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserModel login(String username, String password) {
         UserExample example = new UserExample();
-        example.or().andNameEqualTo(username).andPasswordEqualTo(password);
+        example.or().andAccountEqualTo(username).andPasswordEqualTo(password);
         List<User> users = userMapper.selectByExample(example);
         if (users.isEmpty()) {
             return null;
@@ -43,11 +43,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public List<UserMessageModel> queryMessage(String userId, Integer curPage, Integer pageSize) {
+    public List<UserMessageModel> queryMessage(Integer userId, Integer curPage, Integer pageSize) {
         List<UserMessageModel> models = new ArrayList<>();
         PageHelper.startPage(curPage, pageSize);
         UserMessageExample example = new UserMessageExample();
-        example.createCriteria().andUuidEqualTo(userId);
+        example.createCriteria().andIdEqualTo(userId);
         example.setOrderByClause("date desc");
         List<UserMessage> userMessages = userMessageMapper.selectByExample(example);
         for (UserMessage message : userMessages) {
@@ -56,5 +56,34 @@ public class UserServiceImpl implements UserService {
             models.add(userMessageModel);
         }
         return models;
+    }
+
+    @Override
+    public UserModel getUserById(Integer id) {
+        User user = userMapper.selectByPrimaryKey(id);
+        if(user==null){
+          return null;
+        }
+        UserModel userModel=new UserModel();
+        BeanUtils.copyProperties(user,userModel);
+        userModel.setPassword(null);
+        return userModel;
+    }
+
+    @Override
+    public void register(UserModel userModel) {
+        User user = new User();
+        BeanUtils.copyProperties(userModel,user);
+        userMapper.insertSelective(user);
+    }
+
+    @Override
+    public void updatePassword(String id, String oldPassword, String newPassword, String repeatNewPassword) {
+
+    }
+
+    @Override
+    public void updateUserInfo(String userModel) {
+
     }
 }
