@@ -3,17 +3,17 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
     <classPathEntry
-            location="/Users/songliangliang/Documents/develop/repository/mysql/mysql-connector-java/5.1.30/mysql-connector-java-5.1.30.jar"/>
+            location="F:\develop\repository\repository/mysql/mysql-connector-java/5.1.30/mysql-connector-java-5.1.30.jar"/>
     <context id="abc" targetRuntime="mybatis3">
         <commentGenerator>
             <property name="suppressAllComments" value="false"/>
             <property name="suppressDate" value="true"/>
         </commentGenerator>
         <!--如果链接多个数据库怎么办-->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://5909a99f5452e.gz.cdb.myqcloud.com:15510/lamu?
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/lamu?
         characterEncoding=utf8">
-            <property name="user" value="cdb_outerroot"></property>
-            <property name="password" value="sl123456"></property>
+            <property name="user" value="root"></property>
+            <property name="password" value="1234"></property>
 
         </jdbcConnection>
         <javaTypeResolver>
@@ -37,7 +37,6 @@
 
         <!-- <table tableName="admin"></table>
 
-         <table tableName="advertisement"></table>
          <table tableName="book"></table>
          <table tableName="bookvegetable"></table>
          <table tableName="cart"></table>
@@ -63,6 +62,48 @@
         <table tableName="user"></table>
         <table tableName="user_message"></table>
 -->
-        <table tableName="production"></table>
+        <!--<table tableName="admin">
+            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
+        </table>
+        <table tableName="announcement">
+            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
+        </table>
+
+        <table tableName="cart">
+            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
+        </table>
+
+        <table tableName="book">
+            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
+        </table>
+        <table tableName="comment">
+            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
+
+        </table>
+        <table tableName="gallery">
+            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
+        </table>
+        <table tableName="production">
+            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
+        </table>
+        <table tableName="production_kinds">
+            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
+        </table>
+        <table tableName="production_pic">
+            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
+        </table>
+        <table tableName="production_stock">
+            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
+        </table>
+        <table tableName="user">
+            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
+
+        </table>
+        <table tableName="user_message">
+            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
+        </table>-->
+        <table tableName="production">
+            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
+        </table>
     </context>
 </generatorConfiguration>

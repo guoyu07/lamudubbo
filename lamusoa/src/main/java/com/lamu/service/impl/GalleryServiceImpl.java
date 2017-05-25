@@ -55,38 +55,38 @@ public class GalleryServiceImpl implements GalleryService {
         return pageInfo;
     }
 
-    public GalleryModel getGalleryById(String id) {
+    public GalleryModel getGalleryById(Long id) {
         Gallery gallery = galleryMapper.selectByPrimaryKey(id);
         GalleryModel model = new GalleryModel();
         BeanUtils.copyProperties(gallery, model);
         return model;
     }
 
-    public Integer addRecommand(String id) {
+    public Integer addRecommand(Long id) {
         GalleryExample example = new GalleryExample();
-        example.createCriteria().andUuidEqualTo(id);
+        example.createCriteria().andIdEqualTo(id);
         Gallery gallery = new Gallery();
         gallery.setRecommand(1);
         int update = galleryMapper.updateByExampleSelective(gallery, example);
         return update;
     }
 
-    public Integer removeRecommand(String id) {
+    public Integer removeRecommand(Long id) {
         GalleryExample example = new GalleryExample();
-        example.createCriteria().andUuidEqualTo(id);
+        example.createCriteria().andIdEqualTo(id);
         Gallery gallery = new Gallery();
         gallery.setRecommand(0);
         int update = galleryMapper.updateByExampleSelective(gallery, example);
         return update;
     }
 
-    public Integer countRecommand() {
+    public Long countRecommand() {
         GalleryExample example = new GalleryExample();
         example.createCriteria().andRecommandEqualTo(1);
         return galleryMapper.countByExample(example);
     }
 
-    public Integer delete(String id) {
+    public Integer delete(Long id) {
         return galleryMapper.deleteByPrimaryKey(id);
     }
 

@@ -34,30 +34,30 @@ public interface GalleryService {
      * @param id
      * @return
      */
-    public GalleryModel getGalleryById(String id);
+    public GalleryModel getGalleryById(Long id);
 
     /**
      * @param id
      * @return
      */
-    public Integer addRecommand(String id);
+    public Integer addRecommand(Long id);
 
     /**
      * @param id
      * @return
      */
-    public Integer removeRecommand(String id);
+    public Integer removeRecommand(Long id);
 
     /**
      * @return
      */
-    public Integer countRecommand();
+    public Long countRecommand();
 
     /**
      * @param id
      * @return
      */
-    public Integer delete(String id);
+    public Integer delete(Long id);
 
     /**
      * @return

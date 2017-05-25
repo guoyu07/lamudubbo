@@ -41,10 +41,12 @@ public class LamuServiceImpl implements LamuService {
     private ProductionKindsMapper productionKindsMapper;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void insertProduction(ProductionModel production) {
+    public Integer insertProduction(ProductionModel production) {
         Production production1 = new Production();
         BeanUtils.copyProperties(production, production1);
         productionMapper.insertSelective(production1);
+        Integer id = production1.getId();
+        return id;
     }
 
     @Transactional
@@ -69,14 +71,14 @@ public class LamuServiceImpl implements LamuService {
     }
 
     @Override
-    public PageInfo<ProductionWithPicModel> condition(String category, String unit, String orderBy, Integer curPage, Integer pageSize) {
+    public PageInfo<ProductionWithPicModel> condition(Integer category, String unit, String orderBy, Integer curPage, Integer pageSize) {
         List<ProductionWithPicModel> models = new ArrayList<>();
         PageHelper.startPage(curPage, pageSize);
         ProductionExample example = new ProductionExample();
         example.setOrderByClause(orderBy);
         ProductionExample.Criteria criteria = example.or();
         if (category != null) {
-            criteria.andCategoryEqualTo(category);
+            criteria.andCategoryIdEqualTo(category);
         }
         if (unit != null) {
             criteria.andUnitEqualTo(unit);
@@ -86,7 +88,7 @@ public class LamuServiceImpl implements LamuService {
             ProductionModel productionModel = new ProductionModel();
             BeanUtils.copyProperties(production, productionModel);
             ProductionPicExample picExample = new ProductionPicExample();
-            picExample.createCriteria().andProductionIdEqualTo(production.getUuid()).andPicTypeEqualTo(1);
+            picExample.createCriteria().andProductionIdEqualTo(Long.valueOf(production.getId())).andPicTypeEqualTo(1);
             List<ProductionPic> productionPics = productionPicMapper.selectByExample(picExample);
             List<ProductionPicModel> pics = new ArrayList<>();
             for (ProductionPic productionPic : productionPics) {
@@ -102,14 +104,14 @@ public class LamuServiceImpl implements LamuService {
         return new PageInfo<ProductionWithPicModel>(models);
     }
 
-    public ProductionModel select(String id) {
+    public ProductionModel select(Integer id) {
         Production production = productionMapper.selectByPrimaryKey(id);
         ProductionModel model = new ProductionModel();
         BeanUtils.copyProperties(production, model);
         return model;
     }
 
-    public List<ProductionPicModel> selectPic(String id) {
+    public List<ProductionPicModel> selectPic(Long id) {
         ProductionPicExample example = new ProductionPicExample();
         example.setOrderByClause("sort asc");
         example.createCriteria().andProductionIdEqualTo(id);
@@ -133,7 +135,7 @@ public class LamuServiceImpl implements LamuService {
 
     public Integer update(ProductionModel lamu) {
         ProductionExample example = new ProductionExample();
-        example.createCriteria().andUuidEqualTo(lamu.getUuid());
+        example.createCriteria().andIdEqualTo(lamu.getId());
         Production production = new Production();
         BeanUtils.copyProperties(lamu, production);
         int update = productionMapper.updateByExampleSelective(production, example);
@@ -148,31 +150,31 @@ public class LamuServiceImpl implements LamuService {
         return productions.size();
     }
 
-    public Integer addRecommand(String id) {
+    public Integer addRecommand(Integer id) {
         Production production = new Production();
         production.setRecommand(1);
         ProductionExample example = new ProductionExample();
-        example.createCriteria().andUuidEqualTo(id);
+        example.createCriteria().andIdEqualTo(id);
         int update = productionMapper.updateByExampleSelective(production, example);
         return update;
     }
 
-    public Integer removeRecommand(String id) {
+    public Integer removeRecommand(Integer id) {
         Production production = new Production();
         production.setRecommand(0);
         ProductionExample example = new ProductionExample();
-        example.createCriteria().andUuidEqualTo(id);
+        example.createCriteria().andIdEqualTo(id);
         int update = productionMapper.updateByExampleSelective(production, example);
         return update;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public Integer delete(String id) {
+    public Integer delete(Integer id) {
         ProductionExample example = new ProductionExample();
-        example.createCriteria().andUuidEqualTo(id);
+        example.createCriteria().andIdEqualTo(id);
         int delete = productionMapper.deleteByExample(example);
         ProductionPicExample picExample = new ProductionPicExample();
-        picExample.createCriteria().andProductionIdEqualTo(id);
+        picExample.createCriteria().andProductionIdEqualTo(Long.valueOf(id));
         int picDelete = productionPicMapper.deleteByExample(picExample);
         if (delete == 1 && picDelete == 9) {
             return 1;
@@ -190,8 +192,7 @@ public class LamuServiceImpl implements LamuService {
         List<ProductionWithPicModel> withPicModels = new ArrayList<>();
         for (Production production : productions) {
             ProductionPicExample picExample = new ProductionPicExample();
-            picExample.or().andProductionIdEqualTo(production.getUuid()).andPicTypeEqualTo(0);
-            picExample.setOrderByClause("create_time desc");
+            picExample.or().andProductionIdEqualTo(Long.valueOf(production.getId())).andPicTypeEqualTo(0);
             List<ProductionPic> pics = productionPicMapper.selectByExample(picExample);
             List<ProductionPicModel> picModels = new ArrayList<>();
             for (ProductionPic pic : pics) {

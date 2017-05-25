@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/lamuapi/lamuapi.iml" filepath="$PROJECT_DIR$/lamuapi/lamuapi.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lamudao/lamudao.iml" filepath="$PROJECT_DIR$/lamudao/lamudao.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lamudubbo.iml" filepath="$PROJECT_DIR$/lamudubbo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lamusoa/lamusoa.iml" filepath="$PROJECT_DIR$/lamusoa/lamusoa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lamuapi/lamu-api.iml" filepath="$PROJECT_DIR$/lamuapi/lamu-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lamudao/lamu-dao.iml" filepath="$PROJECT_DIR$/lamudao/lamu-dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lamu-dubbo.iml" filepath="$PROJECT_DIR$/lamu-dubbo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lamusoa/lamu-soa.iml" filepath="$PROJECT_DIR$/lamusoa/lamu-soa.iml" />
     </modules>
   </component>
 </project>
