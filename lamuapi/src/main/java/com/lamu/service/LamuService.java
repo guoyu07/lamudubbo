@@ -1,10 +1,7 @@
 package com.lamu.service;
 
 import com.github.pagehelper.PageInfo;
-import com.lamu.model.ProductionKindsModel;
-import com.lamu.model.ProductionModel;
-import com.lamu.model.ProductionPicModel;
-import com.lamu.model.ProductionWithPicModel;
+import com.lamu.model.*;
 
 import java.util.Date;
 import java.util.List;
@@ -43,7 +40,7 @@ public interface LamuService {
      * @param id
      * @return
      */
-    public ProductionModel select(Integer id);
+    public ProductionInfoModel select(Integer id);
 
     /**
      * @return

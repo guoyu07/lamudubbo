@@ -29,7 +29,7 @@ public class GalleryServiceImpl implements GalleryService {
 
     public List<GalleryModel> getAllGalleryPics() {
         GalleryExample example = new GalleryExample();
-        example.setOrderByClause("date desc");
+        example.setOrderByClause("create_time desc");
         List<Gallery> gallerypics = galleryMapper.selectByExample(example);
         List<GalleryModel> models = new ArrayList<>();
         for (Gallery gallery : gallerypics) {
