@@ -78,12 +78,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updatePassword(String id, String oldPassword, String newPassword, String repeatNewPassword) {
+    public void updatePassword(Integer id, String oldPassword, String newPassword, String repeatNewPassword) {
 
     }
 
     @Override
-    public void updateUserInfo(String userModel) {
+    public void updateUserInfo(UserModel userModel) {
 
     }
 }

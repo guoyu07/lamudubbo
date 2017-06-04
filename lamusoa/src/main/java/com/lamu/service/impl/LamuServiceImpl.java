@@ -7,10 +7,7 @@ import com.lamu.dao.ProductionMapper;
 import com.lamu.dao.ProductionMapperExt;
 import com.lamu.dao.ProductionPicMapper;
 import com.lamu.entity.*;
-import com.lamu.model.ProductionKindsModel;
-import com.lamu.model.ProductionModel;
-import com.lamu.model.ProductionPicModel;
-import com.lamu.model.ProductionWithPicModel;
+import com.lamu.model.*;
 import com.lamu.service.LamuService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
@@ -104,11 +101,33 @@ public class LamuServiceImpl implements LamuService {
         return new PageInfo<ProductionWithPicModel>(models);
     }
 
-    public ProductionModel select(Integer id) {
+    public ProductionInfoModel select(Integer id) {
         Production production = productionMapper.selectByPrimaryKey(id);
         ProductionModel model = new ProductionModel();
+        ProductionPicExample picExample = new ProductionPicExample();
+        picExample.or().andProductionIdEqualTo(Long.valueOf(id)).andPicTypeEqualTo(1);
+        List<ProductionPic> productionPicsShort = productionPicMapper.selectByExample(picExample);
+        List<ProductionPicModel> shortModels=new ArrayList<>();
+        for(ProductionPic pic:productionPicsShort){
+            ProductionPicModel productionPicModel = new ProductionPicModel();
+            BeanUtils.copyProperties(pic,productionPicModel);
+            shortModels.add(productionPicModel);
+        }
+        picExample.clear();
+        picExample.or().andProductionIdEqualTo(Long.valueOf(id)).andPicTypeEqualTo(2);
+        List<ProductionPic> productionPicsInfo = productionPicMapper.selectByExample(picExample);
+        List<ProductionPicModel> infoModels=new ArrayList<>();
+        for(ProductionPic pic:productionPicsInfo){
+            ProductionPicModel productionPicModel = new ProductionPicModel();
+            BeanUtils.copyProperties(pic,productionPicModel);
+            infoModels.add(productionPicModel);
+        }
         BeanUtils.copyProperties(production, model);
-        return model;
+        ProductionInfoModel productionInfoModel = new ProductionInfoModel();
+        productionInfoModel.setProductionModel(model);
+        productionInfoModel.setShortPics(shortModels);
+        productionInfoModel.setInfoPics(infoModels);
+        return productionInfoModel;
     }
 
     public List<ProductionPicModel> selectPic(Long id) {

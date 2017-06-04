@@ -39,6 +39,7 @@ public class SerializationOptImpl implements SerializationOptimizer {
         list.add(UserNotFoundException.class);
         list.add(ProductionWithPicModel.class);
         list.add(List.class);
+        list.add(ProductionInfoModel.class);
         return list;
     }
 }

@@ -28,12 +28,12 @@ public interface UserService {
      * @param newPassword
      * @param repeatNewPassword
      */
-    void updatePassword(String id,String oldPassword,String newPassword,String repeatNewPassword);
+    void updatePassword(Integer id,String oldPassword,String newPassword,String repeatNewPassword);
 
     /**
      * update user info
      * @param userModel
      */
-    void  updateUserInfo(String userModel);
+    void  updateUserInfo(UserModel userModel);
 
 }
