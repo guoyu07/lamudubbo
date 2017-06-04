@@ -1,187 +1,192 @@
-/*
- Navicat Premium Data Transfer
+-- --------------------------------------------------------
+-- 主机:                           localhost
+-- 服务器版本:                        5.6.24 - MySQL Community Server (GPL)
+-- 服务器操作系统:                      Win64
+-- HeidiSQL 版本:                  9.2.0.4947
+-- --------------------------------------------------------
 
- Source Server         : localhost
- Source Server Type    : MySQL
- Source Server Version : 50716
- Source Host           : localhost
- Source Database       : lamu
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
- Target Server Type    : MySQL
- Target Server Version : 50716
- File Encoding         : utf-8
+-- 导出 lamu 的数据库结构
+DROP DATABASE IF EXISTS `lamu`;
+CREATE DATABASE IF NOT EXISTS `lamu` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `lamu`;
 
- Date: 05/03/2017 17:52:32 PM
-*/
 
-SET NAMES utf8;
-SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
---  Table structure for `admin`
--- ----------------------------
+-- 导出  表 lamu.admin 结构
 DROP TABLE IF EXISTS `admin`;
-CREATE TABLE `admin` (
-  `uuid` varchar(255) NOT NULL,
-  `id` varchar(255) DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `admin` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`uuid`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ----------------------------
---  Table structure for `announcement`
--- ----------------------------
+-- 数据导出被取消选择。
+
+
+-- 导出  表 lamu.announcement 结构
 DROP TABLE IF EXISTS `announcement`;
-CREATE TABLE `announcement` (
-  `uuid` varchar(255) NOT NULL,
-  `admin_id` varchar(255) DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `announcement` (
+  `admin_id` varchar(64) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `create_time` datetime DEFAULT NULL,
   `message` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`uuid`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ----------------------------
---  Table structure for `book`
--- ----------------------------
+-- 数据导出被取消选择。
+
+
+-- 导出  表 lamu.book 结构
 DROP TABLE IF EXISTS `book`;
-CREATE TABLE `book` (
-  `uuid` varchar(255) NOT NULL,
-  `user_id` varchar(255) DEFAULT NULL,
-  `production_id` varchar(255) DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `book` (
+  `user_id` int(11) DEFAULT NULL,
+  `production_id` int(11) DEFAULT NULL,
   `count` int(11) DEFAULT NULL,
   `unit` varchar(255) DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `total_amount` decimal(10,2) DEFAULT NULL,
   `addr` varchar(255) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
-  PRIMARY KEY (`uuid`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_no` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ----------------------------
---  Table structure for `comment`
--- ----------------------------
+-- 数据导出被取消选择。
+
+
+-- 导出  表 lamu.cart 结构
+DROP TABLE IF EXISTS `cart`;
+CREATE TABLE IF NOT EXISTS `cart` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `production_id` int(11) DEFAULT NULL,
+  `count` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 数据导出被取消选择。
+
+
+-- 导出  表 lamu.comment 结构
 DROP TABLE IF EXISTS `comment`;
-CREATE TABLE `comment` (
-  `uuid` varchar(255) NOT NULL,
-  `prodution_id` varchar(255) DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `comment` (
+  `prodution_id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `comment` varchar(255) DEFAULT NULL,
-  `comment_user` varchar(255) DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
-  PRIMARY KEY (`uuid`)
+  `userId` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ----------------------------
---  Table structure for `gallery`
--- ----------------------------
+-- 数据导出被取消选择。
+
+
+-- 导出  表 lamu.gallery 结构
 DROP TABLE IF EXISTS `gallery`;
-CREATE TABLE `gallery` (
-  `uuid` varchar(255) DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `gallery` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `path` varchar(255) DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
-  `recommand` varchar(255) DEFAULT NULL
+  `create_time` datetime NOT NULL,
+  `recommand` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ----------------------------
---  Table structure for `production`
--- ----------------------------
+-- 数据导出被取消选择。
+
+
+-- 导出  表 lamu.production 结构
 DROP TABLE IF EXISTS `production`;
-CREATE TABLE `production` (
-  `uuid` varchar(255) NOT NULL,
+CREATE TABLE IF NOT EXISTS `production` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
-  `despriction` varchar(255) DEFAULT NULL,
-  `price` decimal(10,0) DEFAULT NULL,
-  `discount` int(11) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `discount` int(10) DEFAULT NULL,
   `unit` varchar(255) DEFAULT NULL,
-  `recommand` int(11) DEFAULT NULL,
+  `recommand` int(10) DEFAULT NULL,
   `keyword` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`uuid`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ----------------------------
---  Table structure for `production_kinds`
--- ----------------------------
+-- 数据导出被取消选择。
+
+
+-- 导出  表 lamu.production_kinds 结构
 DROP TABLE IF EXISTS `production_kinds`;
-CREATE TABLE `production_kinds` (
-  `uuid` varchar(255) NOT NULL,
-  `unit` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`uuid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `production_kinds` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `unit` varchar(64) NOT NULL COMMENT '单位',
+  `name` varchar(20) DEFAULT NULL COMMENT '种类名字',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='产品类别表';
 
--- ----------------------------
---  Table structure for `production_pic`
--- ----------------------------
+-- 数据导出被取消选择。
+
+
+-- 导出  表 lamu.production_pic 结构
 DROP TABLE IF EXISTS `production_pic`;
-CREATE TABLE `production_pic` (
-  `uuid` varchar(255) NOT NULL,
-  `production_id` varchar(255) DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `production_pic` (
+  `production_id` bigint(20) DEFAULT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `pic_addr` varchar(255) DEFAULT NULL,
-  `pic_type` int(11) DEFAULT NULL,
+  `pic_type` int(10) NOT NULL,
   `sort` int(11) DEFAULT NULL,
-  PRIMARY KEY (`uuid`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ----------------------------
---  Table structure for `production_saled`
--- ----------------------------
-DROP TABLE IF EXISTS `production_saled`;
-CREATE TABLE `production_saled` (
-  `uuid` varchar(255) NOT NULL,
-  `saled` int(11) DEFAULT NULL,
-  `unit` varchar(255) DEFAULT NULL,
-  `production_id` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`uuid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- 数据导出被取消选择。
 
--- ----------------------------
---  Table structure for `production_stock`
--- ----------------------------
+
+-- 导出  表 lamu.production_stock 结构
 DROP TABLE IF EXISTS `production_stock`;
-CREATE TABLE `production_stock` (
-  `uuid` varchar(255) DEFAULT NULL,
-  `stock` int(11) DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `production_stock` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `stock` int(255) DEFAULT NULL,
   `unit` varchar(255) DEFAULT NULL,
-  `production_id` varchar(255) DEFAULT NULL
+  `production_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ----------------------------
---  Table structure for `system`
--- ----------------------------
-DROP TABLE IF EXISTS `system`;
-CREATE TABLE `system` (
-  `uuid` varchar(255) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `link` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`uuid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- 数据导出被取消选择。
 
--- ----------------------------
---  Table structure for `user`
--- ----------------------------
+
+-- 导出  表 lamu.user 结构
 DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
-  `uuid` varchar(255) NOT NULL,
-  `id` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `account` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `addr` varchar(255) DEFAULT NULL,
-  `tel_phone` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`uuid`)
+  `phone` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ----------------------------
---  Table structure for `user_message`
--- ----------------------------
+-- 数据导出被取消选择。
+
+
+-- 导出  表 lamu.user_message 结构
 DROP TABLE IF EXISTS `user_message`;
-CREATE TABLE `user_message` (
-  `uuid` varchar(255) NOT NULL,
-  `user_id` varchar(255) DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `user_message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
   `message` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`uuid`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-SET FOREIGN_KEY_CHECKS = 1;
+-- 数据导出被取消选择。
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
