@@ -26,6 +26,18 @@
     <url>http://maven.apache.org</url>
     <repositories>
         <repository>
+            <id>maven-central</id>
+            <name>maven-central</name>
+            <url>http://104.197.166.179:8081/repository/maven-central/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <id>alimaven</id>
             <name>aliyun maven</name>
             <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
@@ -245,4 +257,16 @@
         </plugins>
         <defaultGoal>package</defaultGoal>
     </build>
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>maven-releases</name>
+            <url>http://104.197.166.179:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>maven-snapshots</name>
+            <url>http://104.197.166.179:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
